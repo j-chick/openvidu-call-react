@@ -15,9 +15,10 @@ var localUser = new UserModel();
 class VideoRoomComponent extends Component {
     constructor(props) {
         super(props);
-        this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
-            ? this.props.openviduServerUrl
-            : 'https://' + window.location.hostname + ':4443';
+        // this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
+        //     ? this.props.openviduServerUrl
+        //     : 'https://' + window.location.hostname + ':4443';
+        this.OPENVIDU_SERVER_URL = 'http://localhost:5443'
         this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret ? this.props.openviduSecret : 'MY_SECRET';
         this.hasBeenUpdated = false;
         this.layout = new OpenViduLayout();
