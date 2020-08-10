@@ -18,7 +18,7 @@ class VideoRoomComponent extends Component {
         // this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
         //     ? this.props.openviduServerUrl
         //     : 'https://' + window.location.hostname + ':4443';
-        this.OPENVIDU_SERVER_URL = 'http://localhost:5443'
+        this.OPENVIDU_SERVER_URL = 'http://video.watutors.com'
         this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret ? this.props.openviduSecret : 'MY_SECRET';
         this.hasBeenUpdated = false;
         this.layout = new OpenViduLayout();
