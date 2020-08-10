@@ -2,9 +2,8 @@
 Once making a change to this repository, there are two steps involved in deploying those changes to production. First, the updated image must be appropriately tagged and pushed to Docker Hub. Then, the AWS docker-compose configuration files must be updated to reference this newly tagged and pushed image.
 ## Build & Push to Docker Hub
 TODO: Consolidate into a robust `sh` script.
-From the same directory as this document, run the following commands:
+From the same directory as this document (docker folder), run the following commands:
 ```
-cd docker
 # Make sure the local docker deamon is running
 docker build \
     -t watutor/openvidu-call-react:<TAG> \
