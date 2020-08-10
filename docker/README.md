@@ -24,7 +24,7 @@ ssh \
 ```
 cd /opt/openvidu
 ```
-3. Modify ```docker-compose.override.yml``` to pull the image tagged <TAG>. `vim` will do for this:
+3. Modify ```docker-compose.override.yml``` to pull the image with the desired TAG. `vim` will do for this:
 ```
 image: watutor/openvidu-call-react:<TAG>
 ```
@@ -32,10 +32,3 @@ image: watutor/openvidu-call-react:<TAG>
 ```
 sudo ./openvidu restart
 ```
-```
-docker build \
-    -f Dockerfile \
-    -t jschick/openvidu-call-react:<TAG EX: 2.1> \
-    .
-```
-All ```$ docker build``` commands should be run in this directory.
