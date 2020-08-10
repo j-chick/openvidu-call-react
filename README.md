@@ -1,11 +1,15 @@
 <!-- SECTION WaaTutor -->
 # WaTutor Openvidu Server Dependencies
-### Contents of this repo
+## Contents of this repo
 * **./docker**: Containerization and deployment files
+<!-- TODO https://codefresh.io/docker-tutorial/not-ignore-dockerignore-2/ -->
 * **./library**: Unused
 * **./openvidu-call-react**: Root folder of React app
-<!-- !SECTION WaTutor -->
+## Deployment
+The current workflow for deploying an image is outlined [here](./docker/README.md).
 
+<!-- !SECTION WaTutor -->
+---
 <!-- SECTION OpenVidu -->
 [![License badge](https://img.shields.io/badge/license-Apache2-orange.svg)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Documentation Status](https://readthedocs.org/projects/openviduio-docs/badge/?version=stable)](https://docs.openvidu.io/en/stable/?badge=stable)
