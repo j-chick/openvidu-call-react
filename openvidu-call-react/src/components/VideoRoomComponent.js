@@ -15,14 +15,15 @@ var localUser = new UserModel();
 class VideoRoomComponent extends Component {
     constructor(props) {
         super(props);
+        console.log(window.location.href);
         // this.OPENVIDU_SERVER_URL = this.props.openviduServerUrl
         //     ? this.props.openviduServerUrl
         //     : 'https://' + window.location.hostname + ':4443';
-        this.OPENVIDU_SERVER_URL = 'http://video.watutors.com'
-        this.OPENVIDU_SERVER_SECRET = this.props.openviduSecret ? this.props.openviduSecret : 'MY_SECRET';
+        this.OPENVIDU_SERVER_URL = 'https://video.watutors.com';
+        this.OPENVIDU_SERVER_SECRET = 'WATUTORS_SECRET';
         this.hasBeenUpdated = false;
         this.layout = new OpenViduLayout();
-        let sessionName = this.props.sessionName ? this.props.sessionName : 'SessionA';
+        let sessionName = this.props.sessionName ? this.props.sessionName : 'testsession';
         let userName = this.props.user ? this.props.user : 'OpenVidu_User' + Math.floor(Math.random() * 100);
         this.state = {
             mySessionId: sessionName,
@@ -514,7 +515,7 @@ class VideoRoomComponent extends Component {
                     },
                 })
                 .then((response) => {
-                    console.log('CREATE SESION', response);
+                    console.log('CREATE SESSION', response);
                     resolve(response.data.id);
                 })
                 .catch((response) => {
