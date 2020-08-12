@@ -68,7 +68,7 @@ export default class ToolbarComponent extends Component {
         return (
             <AppBar className="toolbar" id="header">
                 <Toolbar className="toolbar">
-                    <div id="navSessionInfo">
+                    {/* <div id="navSessionInfo">
                         <img
                             id="header_img"
                             alt="OpenVidu Logo"
@@ -78,7 +78,7 @@ export default class ToolbarComponent extends Component {
                         {this.props.sessionId && <div id="titleContent">
                             <span id="session-title">{mySessionId}</span>
                         </div>}
-                    </div>
+                    </div> */}
 
                     <div className="buttonsContent">
                         <IconButton color="inherit" className="navButton" id="navMicButton" onClick={this.micStatusChanged}>
