@@ -25,7 +25,6 @@ class VideoRoomComponent extends Component {
 
     const params = {};
 
-    console.log(window.location.href);
     const parts = window.location.href.split('/')[3].split('?')[1].split('&');
 
     for (let i = 0; i < parts.length; i += 1) {
@@ -47,6 +46,7 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       authToken,
+      isFrontCamera: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -63,6 +63,7 @@ class VideoRoomComponent extends Component {
     this.toggleChat = this.toggleChat.bind(this);
     this.checkNotification = this.checkNotification.bind(this);
     this.checkSize = this.checkSize.bind(this);
+    this.toggleCamera = this.toggleCamera.bind(this);
   }
 
   componentDidMount() {
@@ -149,6 +150,35 @@ class VideoRoomComponent extends Component {
         publisher.videos[0].video.parentElement.classList.remove('custom-class');
       });
     });
+  }
+
+  toggleCamera() {
+    const { isFrontCamera, session } = this.state;
+
+    this.OV.getDevices()
+      .then((devices) => {
+        const videoDevices = devices.filter((device) => device.kind === 'videoinput');
+
+        if (videoDevices && videoDevices.length > 1) {
+          const newPublisher = this.OV.initPublisher(undefined, {
+            videoSource: isFrontCamera ? videoDevices[1].deviceId : videoDevices[0].deviceId,
+            publishAudio: localUser.isAudioActive(),
+            publishVideo: localUser.isVideoActive(),
+            mirror: isFrontCamera,
+            // resolution: '640x480',
+            // frameRate: 30,
+            // insertMode: 'APPEND',
+          })
+
+          this.setState({ isFrontCamera: !isFrontCamera });
+
+          session.unpublish(localUser.getStreamManager());
+
+          localUser.setStreamManager(newPublisher);
+
+          session.publish(newPublisher);
+        }
+      })
   }
 
   leaveSession() {
@@ -447,6 +477,7 @@ class VideoRoomComponent extends Component {
           sessionId={mySessionId}
           user={localUser}
           showNotification={this.state.messageReceived}
+          toggleCamera={this.toggleCamera}
           camStatusChanged={this.camStatusChanged}
           micStatusChanged={this.micStatusChanged}
           screenShare={this.screenShare}
