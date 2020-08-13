@@ -165,9 +165,9 @@ class VideoRoomComponent extends Component {
             publishAudio: localUser.isAudioActive(),
             publishVideo: localUser.isVideoActive(),
             mirror: isFrontCamera,
-            // resolution: '640x480',
-            // frameRate: 30,
-            // insertMode: 'APPEND',
+            resolution: '640x480',
+            frameRate: 30,
+            insertMode: 'APPEND',
           });
 
           this.setState({ isFrontCamera: !isFrontCamera });
