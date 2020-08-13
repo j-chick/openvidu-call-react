@@ -2,7 +2,7 @@ import $ from 'jquery';
 
 class OpenViduLayout {
   layoutContainer;
-  opts ;
+  opts;
 
   fixAspectRatio(elem, width) {
     const sub = elem.querySelector('.OT_root');
@@ -17,7 +17,7 @@ class OpenViduLayout {
     }
   }
 
- positionElement(elem, x, y, width, height, animate) {
+  positionElement(elem, x, y, width, height, animate) {
     const targetPosition = {
       left: x + 'px',
       top: y + 'px',
@@ -54,40 +54,40 @@ class OpenViduLayout {
     return 3 / 4;
   }
 
-   getCSSNumber(elem, prop) {
+  getCSSNumber(elem, prop) {
     const cssStr = $(elem).css(prop);
     return cssStr ? parseInt(cssStr, 10) : 0;
   }
 
   // Really cheap UUID function
-   cheapUUID() {
+  cheapUUID() {
     return (Math.random() * 100000000).toFixed(0);
   }
 
-   getHeight(elem) {
+  getHeight(elem) {
     const heightStr = $(elem).css('height');
     return heightStr ? parseInt(heightStr, 10) : 0;
   }
 
-   getWidth(elem) {
+  getWidth(elem) {
     const widthStr = $(elem).css('width');
     return widthStr ? parseInt(widthStr, 10) : 0;
   }
 
-   getBestDimensions(minR , maxR , count , WIDTH, HEIGHT, targetHeight) {
+  getBestDimensions(minR, maxR, count, WIDTH, HEIGHT, targetHeight) {
     let maxArea, targetCols, targetRows, targetWidth, tWidth, tHeight, tRatio;
 
     // Iterate through every possible combination of rows and columns
     // and see which one has the least amount of whitespace
     for (let i = 1; i <= count; i++) {
-      const colsAux = i;
-      const rowsAux = Math.ceil(count / colsAux);
+      const colsAux = i; // 1
+      const rowsAux = Math.ceil(count / colsAux); // 1
 
       // Try taking up the whole height and width
-      tHeight = Math.floor(HEIGHT / rowsAux);
-      tWidth = Math.floor(WIDTH / colsAux);
+      tHeight = Math.floor(HEIGHT / rowsAux); // 600
+      tWidth = Math.floor(WIDTH / colsAux); // 400
 
-      tRatio = tHeight / tWidth;
+      tRatio = tHeight / tWidth; // 1.5
       if (tRatio > maxR) {
         // We went over decrease the height
         tRatio = maxR;
@@ -119,7 +119,7 @@ class OpenViduLayout {
     };
   }
 
-   arrange(
+  arrange(
     children,
     WIDTH,
     HEIGHT,
@@ -251,7 +251,7 @@ class OpenViduLayout {
     }
   }
 
- filterDisplayNone(element) {
+  filterDisplayNone(element) {
     return element.style.display !== 'none';
   }
 

@@ -68,7 +68,6 @@ export default class ToolbarComponent extends Component {
   }
 
   render() {
-    const mySessionId = this.props.sessionId;
     const localUser = this.props.user;
     return (
       <AppBar className="toolbar" id="header">
