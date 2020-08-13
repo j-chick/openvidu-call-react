@@ -168,7 +168,7 @@ class VideoRoomComponent extends Component {
             // resolution: '640x480',
             // frameRate: 30,
             // insertMode: 'APPEND',
-          })
+          });
 
           this.setState({ isFrontCamera: !isFrontCamera });
 
@@ -176,9 +176,14 @@ class VideoRoomComponent extends Component {
 
           localUser.setStreamManager(newPublisher);
 
+          this.state.localUser.getStreamManager().on('streamPlaying', () => {
+            this.updateLayout();
+            newPublisher.videos[0].video.parentElement.classList.remove('custom-class');
+          });
+
           session.publish(newPublisher);
         }
-      })
+      });
   }
 
   leaveSession() {
