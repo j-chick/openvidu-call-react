@@ -6,7 +6,7 @@ class UserModel {
   nickname;
   streamManager;
   type; // 'remote' | 'local'
-  isFrontCamera;
+  frontCamera;
 
   constructor() {
     this.connectionId = '';
@@ -16,7 +16,7 @@ class UserModel {
     this.nickname = '';
     this.streamManager = null;
     this.type = 'local';
-    this.isFrontCamera = false;
+    this.frontCamera = false;
   }
 
   isAudioActive() {
@@ -51,7 +51,7 @@ class UserModel {
   }
 
   isFrontCamera() {
-    return this.isFrontCamera;
+    return this.frontCamera;
   }
 
   setAudioActive(isAudioActive) {
@@ -79,8 +79,8 @@ class UserModel {
     }
   }
 
-  setFrontCamera(frontCamera) {
-    this.isFrontCamera = frontCamera;
+  setFrontCamera(isFrontCamera) {
+    this.frontCamera = isFrontCamera;
   }
 }
 

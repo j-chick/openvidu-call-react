@@ -165,9 +165,9 @@ class VideoRoomComponent extends Component {
             publishAudio: localUser.isAudioActive(),
             publishVideo: localUser.isVideoActive(),
             mirror: isFrontCamera,
-            resolution: '640x480',
-            frameRate: 30,
-            insertMode: 'APPEND',
+            // resolution: '640x480',
+            // frameRate: 30,
+            // insertMode: 'APPEND',
           });
 
           session.unpublish(localUser.getStreamManager());
@@ -177,8 +177,9 @@ class VideoRoomComponent extends Component {
           session.publish(newPublisher)
             .then(() => {
               localUser.setFrontCamera(!isFrontCamera);
+
               this.setState({ localUser }, () => {
-                this.sendSignalUserChanged({ isFrontCamera: localUser.isFrontCamera() });
+                this.sendSignalUserChanged({ isFrontCamera: !isFrontCamera });
               });
             });
 
