@@ -164,6 +164,7 @@ class VideoRoomComponent extends Component {
             videoSource: isFrontCamera ? videoDevices[1].deviceId : videoDevices[0].deviceId,
             publishAudio: localUser.isAudioActive(),
             publishVideo: localUser.isVideoActive(),
+            mirror: !isFrontCamera,
           });
 
           session.unpublish(localUser.getStreamManager());
