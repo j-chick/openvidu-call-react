@@ -46,7 +46,6 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       authToken,
-      isFrontCamera: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -153,7 +152,8 @@ class VideoRoomComponent extends Component {
   }
 
   toggleCamera() {
-    const { isFrontCamera, session } = this.state;
+    const isFrontCamera = localUser.isFrontCamera();
+    const { session } = this.state;
 
     this.OV.getDevices()
       .then((devices) => {
@@ -170,18 +170,22 @@ class VideoRoomComponent extends Component {
             insertMode: 'APPEND',
           });
 
-          this.setState({ isFrontCamera: !isFrontCamera });
-
           session.unpublish(localUser.getStreamManager());
 
           localUser.setStreamManager(newPublisher);
+
+          session.publish(newPublisher)
+            .then(() => {
+              localUser.setFrontCamera(!isFrontCamera);
+              this.setState({ localUser }, () => {
+                this.sendSignalUserChanged({ isFrontCamera: localUser.isFrontCamera() });
+              });
+            });
 
           this.state.localUser.getStreamManager().on('streamPlaying', () => {
             this.updateLayout();
             newPublisher.videos[0].video.parentElement.classList.remove('custom-class');
           });
-
-          session.publish(newPublisher);
         }
       });
   }
@@ -601,7 +605,6 @@ class VideoRoomComponent extends Component {
           },
         })
         .then((response) => {
-          console.log('CREATE SESSION', response);
           resolve(response.data.id);
         })
         .catch((response) => {
