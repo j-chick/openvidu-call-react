@@ -16,7 +16,7 @@ class UserModel {
     this.nickname = '';
     this.streamManager = null;
     this.type = 'local';
-    this.frontCamera = false;
+    this.frontCamera = true;
   }
 
   isAudioActive() {
