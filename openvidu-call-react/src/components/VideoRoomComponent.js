@@ -194,7 +194,7 @@ class VideoRoomComponent extends Component {
     const mySession = this.state.session;
 
     if (mySession) {
-      fetch('https://20200810t211851-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
+      fetch('https://v10minsession3-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -550,7 +550,7 @@ class VideoRoomComponent extends Component {
           console.log('TOKEN:', token);
 
           if (this.isProvider) {
-            fetch('https://20200810t211851-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
+            fetch('https://v10minsession3-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${authToken}`,
