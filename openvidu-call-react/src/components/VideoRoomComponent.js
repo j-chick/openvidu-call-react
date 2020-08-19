@@ -200,10 +200,10 @@ class VideoRoomComponent extends Component {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${authToken}`,
         },
-        body: {
+        body: JSON.stringify({
           sid: mySessionId,
           newState: 'ended',
-        },
+        }),
       });
 
       mySession.disconnect();
@@ -556,10 +556,10 @@ class VideoRoomComponent extends Component {
                 Authorization: `Bearer ${authToken}`,
                 'Content-Type': 'application/json',
               },
-              body: {
+              body: JSON.stringify({
                 sid: mySessionId,
                 newState: 'started',
-              },
+              }),
             });
           }
 
