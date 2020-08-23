@@ -13,6 +13,7 @@ import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 const localUser = new UserModel();
+const API_BASE_URL = 'https://v2-0-20-dev1-dot-watutors-1.uc.r.appspot.com';
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -33,19 +34,19 @@ class VideoRoomComponent extends Component {
     }
 
     const {
-      sessionName, userName, isProvider, authToken,
+      sid, name, isProvider, token,
     } = params;
 
     this.isProvider = isProvider;
 
     this.state = {
-      mySessionId: sessionName,
-      myUserName: userName,
+      mySessionId: sid,
+      myUserName: name,
       session: undefined,
       localUser: undefined,
       subscribers: [],
       chatDisplay: 'none',
-      authToken,
+      authToken: token,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -194,7 +195,7 @@ class VideoRoomComponent extends Component {
     const mySession = this.state.session;
 
     if (mySession) {
-      fetch('https://v10minsession3-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
+      fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -547,10 +548,8 @@ class VideoRoomComponent extends Component {
     } else {
       this.getToken()
         .then((token) => {
-          console.log('TOKEN:', token);
-
           if (this.isProvider) {
-            fetch('https://v10minsession3-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
+            fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${authToken}`,
