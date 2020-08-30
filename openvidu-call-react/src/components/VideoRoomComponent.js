@@ -34,10 +34,11 @@ class VideoRoomComponent extends Component {
     }
 
     const {
-      sid, name, isProvider, token,
+      sid, name, isProvider, token, type,
     } = params;
 
     this.isProvider = isProvider;
+    this.sessionType = type;
 
     this.state = {
       mySessionId: sid,
@@ -194,7 +195,7 @@ class VideoRoomComponent extends Component {
 
     const mySession = this.state.session;
 
-    if (mySession) {
+    if (mySession && this.sessionType !== 'free_private') {
       fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
         method: 'POST',
         headers: {
