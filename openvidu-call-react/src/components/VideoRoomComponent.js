@@ -13,7 +13,7 @@ import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 const localUser = new UserModel();
-const API_BASE_URL = 'https://v2-0-21dev2-dot-watutors-1.uc.r.appspot.com';
+const API_BASE_URL = 'https://v2-0-24-dot-watutors-1.uc.r.appspot.com/v2';
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -195,7 +195,7 @@ class VideoRoomComponent extends Component {
 
     const mySession = this.state.session;
 
-    if (mySession && this.sessionType !== 'free_private') {
+    if (mySession && this.sessionType !== 'free_private_timed') {
       fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
         method: 'POST',
         headers: {
