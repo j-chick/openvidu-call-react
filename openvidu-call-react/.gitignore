@@ -24,3 +24,4 @@ yarn.lock
 package-lock.json
 
 test-openvidu.pem
+ssh-openvidu-pro.pem
