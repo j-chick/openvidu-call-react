@@ -3,7 +3,7 @@ FROM node:lts-alpine3.11 AS openvidu-call-build
 WORKDIR /openvidu-call
 
 RUN apk add git && \
-    git clone "https://github.com/j-chick/openvidu-call-react" current-master-branch && \
+    git clone "https://github.com/j-chick/openvidu-call-react.git" current-master-branch && \
     mv current-master-branch/openvidu-call-react . && \
     rm -rf current-master-branch && \
     rm -f openvidu-call-react/package-lock.json && \
