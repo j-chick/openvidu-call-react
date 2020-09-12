@@ -196,7 +196,7 @@ class VideoRoomComponent extends Component {
     const mySession = this.state.session;
 
     if (mySession && this.sessionType !== 'free_private_timed') {
-      fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
+      fetch('https://v2-0-29-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -550,7 +550,7 @@ class VideoRoomComponent extends Component {
       this.getToken()
         .then((token) => {
           if (this.isProvider) {
-            fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
+            fetch('https://v2-0-29-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${authToken}`,
