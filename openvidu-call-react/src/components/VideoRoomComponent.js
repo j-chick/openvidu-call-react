@@ -13,7 +13,7 @@ import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 const localUser = new UserModel();
-const API_BASE_URL = 'https://v2-0-24-dot-watutors-1.uc.r.appspot.com/v2';
+const API_BASE_URL = 'https://v2-0-29-dot-watutors-1.uc.r.appspot.com/v2';
 
 class VideoRoomComponent extends Component {
   constructor(props) {
