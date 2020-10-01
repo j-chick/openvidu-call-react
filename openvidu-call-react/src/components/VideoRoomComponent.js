@@ -13,7 +13,7 @@ import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 const localUser = new UserModel();
-const API_BASE_URL = 'https://v2-0-29-dot-watutors-1.uc.r.appspot.com/v2';
+const API_BASE_URL = 'https://v2-0-34-dot-watutors-1.uc.r.appspot.com/v2';
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -37,7 +37,7 @@ class VideoRoomComponent extends Component {
       sid, name, isProvider, token, type,
     } = params;
 
-    this.isProvider = isProvider;
+    this.isProvider = isProvider === 'true';
     this.sessionType = type;
 
     this.state = {
@@ -48,6 +48,7 @@ class VideoRoomComponent extends Component {
       subscribers: [],
       chatDisplay: 'none',
       authToken: token,
+      ended: false,
     };
 
     this.joinSession = this.joinSession.bind(this);
@@ -191,12 +192,12 @@ class VideoRoomComponent extends Component {
   }
 
   leaveSession() {
-    const { mySessionId, authToken } = this.state;
+    const { mySessionId, authToken, subscribers } = this.state;
 
     const mySession = this.state.session;
 
-    if (mySession && this.sessionType !== 'free_private_timed') {
-      fetch('https://v2-0-29-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
+    if ((mySession && this.sessionType !== 'free_private_timed') || subscribers.length === 0) {
+      fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -214,6 +215,7 @@ class VideoRoomComponent extends Component {
     // Empty all properties...
     this.OV = null;
     this.setState({
+      ended: true,
       session: undefined,
       subscribers: [],
       mySessionId: 'SessionA',
@@ -476,8 +478,9 @@ class VideoRoomComponent extends Component {
   }
 
   render() {
-    const { mySessionId } = this.state;
-    const { localUser } = this.state;
+    const {
+      mySessionId, subscribers, localUser, ended,
+    } = this.state;
     const chatDisplay = { display: this.state.chatDisplay };
 
     return (
@@ -499,12 +502,147 @@ class VideoRoomComponent extends Component {
         <DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />
 
         <div id="layout" className="bounds">
-          {localUser !== undefined && localUser.getStreamManager() !== undefined && (
+          {localUser !== undefined && localUser.getStreamManager() !== undefined ? (
             <div className="OT_root OT_publisher custom-class" id="localUser">
               <StreamComponent user={localUser} handleNickname={this.nicknameChanged} />
             </div>
+          ) : ended && (
+            <div style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+            }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="300"
+                height="300"
+                viewBox="0 0 512 512"
+                style={{ width: '100%' }}
+              >
+                <linearGradient
+                  id="SVGID_1_"
+                  x1="23.821"
+                  x2="459.531"
+                  y1="336.331"
+                  y2="84.774"
+                  gradientUnits="userSpaceOnUse"
+                >
+                  <stop offset="0" stopColor="#dcfdee" stopOpacity="0" />
+                  <stop offset="0.629" stopColor="#d2f3e4" />
+                </linearGradient>
+                <path
+                  fill="url(#SVGID_1_)"
+                  d="M16.074 295.943c18.727 64.003 72.707 194.564 163.922 182.845 91.486-11.755 55.759-129.725 139.508-145.894 36.867-7.118 61.857 56.689 98.806 54.704 47.588-2.557 71.81-49.663 85.108-89.264 28.197-83.968-14.029-226.352-112.859-251.012-86.244-21.519-96.332 83.855-171.322 53.248-42.149-17.203-37.938-68.576-89.272-78.942C-25.333-9.731-8.845 210.778 16.074 295.943z"
+                />
+                <path
+                  fill="#2626bc"
+                  d="M350.232 493.402H161.768c-16.569 0-30-13.431-30-30V82.723c0-16.569 13.431-30 30-30h188.464c16.569 0 30 13.431 30 30v380.678c0 16.569-13.431 30.001-30 30.001z"
+                  opacity="0.1"
+                />
+                <path
+                  fill="#6583fe"
+                  d="M350.232 469.402H161.768c-16.569 0-30-13.431-30-30V58.723c0-16.569 13.431-30 30-30h188.464c16.569 0 30 13.431 30 30v380.678c0 16.569-13.431 30.001-30 30.001z"
+                />
+                <path fill="#2d58e0" d="M131.77 71.632h248.46v354.86H131.77z" />
+                <path
+                  fill="#1f50c9"
+                  d="M239.225 201.915h-50.943c-5.523 0-10-4.477-10-10v-47.011c0-5.523 4.477-10 10-10h50.943c5.523 0 10 4.477 10 10v47.011c0 5.523-4.477 10-10 10zM324.144 201.633h-50.943c-5.523 0-10-4.477-10-10v-47.011c0-5.523 4.477-10 10-10h50.943c5.523 0 10 4.477 10 10v47.011c0 5.523-4.477 10-10 10zM379.948 134.622v67.01h-21.55c-5.52 0-10-4.48-10-10v-47.01c0-5.52 4.48-10 10-10z"
+                />
+                <path
+                  fill="#fff"
+                  d="M309.84 93.061H202.16a5 5 0 000 10h107.68a5 5 0 000-10z"
+                />
+                <path
+                  fill="#ff7eb8"
+                  d="M239.225 191.403h-50.943c-5.523 0-10-4.477-10-10v-47.011c0-5.523 4.477-10 10-10h50.943c5.523 0 10 4.477 10 10v47.011c0 5.523-4.477 10-10 10z"
+                />
+                <g fill="#fff">
+                  <path d="M228.594 170.507h-20.681a5 5 0 000 10h20.681a5 5 0 000-10zM228.594 154.177h-5.681a5 5 0 000 10h5.681a5 5 0 000-10z" />
+                </g>
+                <path
+                  fill="#02ffb3"
+                  d="M324.144 191.122h-50.943c-5.523 0-10-4.477-10-10V134.11c0-5.523 4.477-10 10-10h50.943c5.523 0 10 4.477 10 10v47.011c0 5.523-4.477 10.001-10 10.001z"
+                />
+                <g fill="#fff">
+                  <path d="M313.513 170.226h-20.681a5 5 0 000 10h20.681a5 5 0 000-10zM313.513 153.895h-5.681a5 5 0 000 10h5.681a5 5 0 000-10z" />
+                </g>
+                <path
+                  fill="#9fb0fe"
+                  d="M379.948 124.111v67.01h-21.55c-5.52 0-10-4.48-10-10v-47.01c0-5.52 4.48-10 10-10z"
+                />
+                <path
+                  fill="#fff"
+                  d="M131.77 426.492v-184.74c0-13.8 11.19-25 25-25h198.46c13.81 0 25 11.2 25 25v184.74z"
+                />
+                <path
+                  fill="#2626bc"
+                  d="M350.232 474.401H161.768c-19.299 0-35-15.701-35-35V58.724c0-19.299 15.701-35 35-35h188.464c19.299 0 35 15.701 35 35v380.678c0 19.298-15.701 34.999-35 34.999zM161.768 33.724c-13.785 0-25 11.215-25 25v380.678c0 13.785 11.215 25 25 25h188.464c13.785 0 25-11.215 25-25V58.724c0-13.785-11.215-25-25-25z"
+                />
+                <g>
+                  <path
+                    fill="#b7c5ff"
+                    d="M273.483 56.094h-34.966a5 5 0 010-10h34.966a5 5 0 010 10z"
+                  />
+                </g>
+                <circle cx="296.813" cy="51.092" r="5.002" fill="#b7c5ff" />
+                <g>
+                  <path
+                    fill="#00d890"
+                    d="M234.594 249.062h-20.681a5 5 0 000 10h20.681a5 5 0 000-10z"
+                  />
+                  <path
+                    fill="#9fb0fe"
+                    d="M336.594 269.335H213.913a5 5 0 000 10h122.681a5 5 0 000-10z"
+                  />
+                  <path
+                    fill="#02ffb3"
+                    d="M184.926 279.335h-20.272a5 5 0 01-5-5v-20.272a5 5 0 015-5h20.272a5 5 0 015 5v20.272a5 5 0 01-5 5z"
+                  />
+                </g>
+                <g>
+                  <path
+                    fill="#ff5ba8"
+                    d="M234.594 311.006h-20.681a5 5 0 000 10h20.681a5 5 0 000-10z"
+                  />
+                  <path
+                    fill="#9fb0fe"
+                    d="M336.594 331.278H213.913a5 5 0 000 10h122.681a5 5 0 000-10z"
+                  />
+                  <path
+                    fill="#ff7eb8"
+                    d="M184.926 341.278h-20.272a5 5 0 01-5-5v-20.272a5 5 0 015-5h20.272a5 5 0 015 5v20.272a5 5 0 01-5 5z"
+                  />
+                </g>
+                <g>
+                  <path
+                    fill="#6583fe"
+                    d="M234.594 372.949h-20.681a5 5 0 000 10h20.681a5 5 0 000-10z"
+                  />
+                  <path
+                    fill="#9fb0fe"
+                    d="M336.594 393.221H213.913a5 5 0 000 10h122.681a5 5 0 000-10zM184.926 403.221h-20.272a5 5 0 01-5-5v-20.272a5 5 0 015-5h20.272a5 5 0 015 5v20.272a5 5 0 01-5 5z"
+                  />
+                </g>
+                <path
+                  fill="#6583fe"
+                  d="M418.336 397.24c-7.88 0-14.291-6.411-14.291-14.292s6.411-14.292 14.291-14.292 14.291 6.411 14.291 14.292-6.411 14.292-14.291 14.292zm0-18.583c-2.366 0-4.291 1.925-4.291 4.292s1.925 4.292 4.291 4.292 4.291-1.925 4.291-4.292-1.925-4.292-4.291-4.292z"
+                />
+                <path
+                  fill="#01eca5"
+                  d="M82.919 184.409a5 5 0 01-5-5c0-3.309-2.691-6-6-6a5 5 0 010-10c3.309 0 6-2.691 6-6a5 5 0 0110 0c0 3.309 2.691 6 6 6a5 5 0 010 10c-3.309 0-6 2.691-6 6a5 5 0 01-5 5zM432.652 442.493a5 5 0 01-5-5c0-3.309-2.691-6-6-6a5 5 0 110-10c3.309 0 6-2.691 6-6a5 5 0 1110 0c0 3.309 2.691 6 6 6a5 5 0 110 10c-3.309 0-6 2.691-6 6a5 5 0 01-5 5z"
+                />
+                <g fill="#ff5ba8">
+                  <path d="M443.652 150.622a5 5 0 01-5-5c0-3.309-2.691-6-6-6a5 5 0 110-10c3.309 0 6-2.691 6-6a5 5 0 1110 0c0 3.309 2.691 6 6 6a5 5 0 110 10c-3.309 0-6 2.691-6 6a5 5 0 01-5 5zM72.627 233.706a5 5 0 01-5-5c0-3.309-2.691-6-6-6a5 5 0 010-10c3.309 0 6-2.691 6-6a5 5 0 0110 0c0 3.309 2.691 6 6 6a5 5 0 010 10c-3.309 0-6 2.691-6 6a5 5 0 01-5 5z" />
+                </g>
+              </svg>
+              <p style={{ textAlign: 'center', color: 'white', fontSize: 24 }}>
+                Session has ended, you may now return to the app.
+              </p>
+            </div>
           )}
-          {this.state.subscribers.map((sub, i) => (
+          {subscribers.map((sub, i) => (
             <div key={i} className="OT_root OT_publisher custom-class" id="remoteUsers">
               <StreamComponent user={sub} streamId={sub.streamManager.stream.streamId} />
             </div>
@@ -550,7 +688,7 @@ class VideoRoomComponent extends Component {
       this.getToken()
         .then((token) => {
           if (this.isProvider) {
-            fetch('https://v2-0-29-dot-watutors-1.uc.r.appspot.com/v2/session/paid/scheduled/call_event', {
+            fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
               method: 'POST',
               headers: {
                 Authorization: `Bearer ${authToken}`,
@@ -616,11 +754,9 @@ class VideoRoomComponent extends Component {
             );
             if (
               window.confirm(
-                `No connection to OpenVidu Server. This may be a certificate error at "${
-                this.OPENVIDU_SERVER_URL
+                `No connection to OpenVidu Server. This may be a certificate error at "${this.OPENVIDU_SERVER_URL
                 }"\n\nClick OK to navigate and accept it. `
-                + `If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${
-                this.OPENVIDU_SERVER_URL
+                + `If no certificate warning is shown, then check that your OpenVidu Server is up and running at "${this.OPENVIDU_SERVER_URL
                 }"`,
               )
             ) {

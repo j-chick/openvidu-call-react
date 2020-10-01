@@ -67,15 +67,33 @@ export default class ToolbarComponent extends Component {
     this.props.toggleChat();
   }
 
+  getMobile() {
+    const { platform } = window.navigator;
+    const webPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K', 'Win32', 'Win64', 'Windows', 'WinCE'];
+
+    let mobile = true;
+  
+    if (webPlatforms.indexOf(platform) !== -1) {
+      mobile = false;
+    }
+  
+    return mobile;
+  }
+
   render() {
     const localUser = this.props.user;
+
+    const isMobile = this.getMobile();
+
     return (
       <AppBar className="toolbar" id="header">
         <Toolbar className="toolbar">
           <div className="buttonsContent">
-            <IconButton color="inherit" className="navButton" id="navFlipButton" onClick={this.toggleCamera}>
-              <FlipCameraIosIcon />
-            </IconButton>
+            {isMobile && (
+              <IconButton color="inherit" className="navButton" id="navFlipButton" onClick={this.toggleCamera}>
+                <FlipCameraIosIcon />
+              </IconButton>
+            )}
             <IconButton color="inherit" className="navButton" id="navMicButton" onClick={this.micStatusChanged}>
               {localUser !== undefined && localUser.isAudioActive() ? <Mic /> : <MicOff color="secondary" />}
             </IconButton>
@@ -88,9 +106,11 @@ export default class ToolbarComponent extends Component {
                 )}
             </IconButton>
 
-            <IconButton color="inherit" className="navButton" onClick={this.screenShare}>
-              {localUser !== undefined && localUser.isScreenShareActive() ? <PictureInPicture /> : <ScreenShare />}
-            </IconButton>
+            {!isMobile && (
+              <IconButton color="inherit" className="navButton" onClick={this.screenShare}>
+                {localUser !== undefined && localUser.isScreenShareActive() ? <PictureInPicture /> : <ScreenShare />}
+              </IconButton>
+            )}
 
             {localUser !== undefined &&
               localUser.isScreenShareActive() && (
