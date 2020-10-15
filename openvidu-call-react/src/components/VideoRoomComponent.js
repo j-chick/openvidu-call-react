@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import fetch from 'node-fetch';
 
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
+
 import './VideoRoomComponent.css';
 import { OpenVidu } from 'openvidu-browser';
 
@@ -13,7 +17,7 @@ import UserModel from '../models/user-model';
 import ToolbarComponent from './toolbar/ToolbarComponent';
 
 const localUser = new UserModel();
-const API_BASE_URL = 'https://v2-0-34-dot-watutors-1.uc.r.appspot.com/v2';
+const API_BASE_URL = 'https://v2-0-35-dot-watutors-1.uc.r.appspot.com/v2';
 
 class VideoRoomComponent extends Component {
   constructor(props) {
@@ -196,7 +200,8 @@ class VideoRoomComponent extends Component {
 
     const mySession = this.state.session;
 
-    if ((mySession && this.sessionType !== 'free_private_timed') || subscribers.length === 0) {
+    if (mySession && (this.sessionType === 'paid_available_timed'
+      || this.isProvider || subscribers.length === 0)) {
       fetch(`${API_BASE_URL}/session/paid/scheduled/call_event`, {
         method: 'POST',
         headers: {
@@ -395,8 +400,6 @@ class VideoRoomComponent extends Component {
           alert('Your browser does not support screen sharing');
         } else if (error && error.name === 'SCREEN_EXTENSION_DISABLED') {
           alert('You need to enable screen sharing extension');
-        } else if (error && error.name === 'SCREEN_CAPTURE_DENIED') {
-          alert('You need to choose a window or application to share');
         }
       },
     );
@@ -477,28 +480,29 @@ class VideoRoomComponent extends Component {
     }
   }
 
+  getMobile() {
+    const { platform } = window.navigator;
+    const webPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K', 'Win32', 'Win64', 'Windows', 'WinCE'];
+
+    let mobile = true;
+  
+    if (webPlatforms.indexOf(platform) !== -1) {
+      mobile = false;
+    }
+  
+    return mobile;
+  }
+
   render() {
     const {
       mySessionId, subscribers, localUser, ended,
     } = this.state;
     const chatDisplay = { display: this.state.chatDisplay };
 
+    const isMobile = this.getMobile();
+
     return (
       <div className="container" id="container">
-        <ToolbarComponent
-          sessionId={mySessionId}
-          user={localUser}
-          showNotification={this.state.messageReceived}
-          toggleCamera={this.toggleCamera}
-          camStatusChanged={this.camStatusChanged}
-          micStatusChanged={this.micStatusChanged}
-          screenShare={this.screenShare}
-          stopScreenShare={this.stopScreenShare}
-          toggleFullscreen={this.toggleFullscreen}
-          leaveSession={this.leaveSession}
-          toggleChat={this.toggleChat}
-        />
-
         <DialogExtensionComponent showDialog={this.state.showExtensionDialog} cancelClicked={this.closeDialogExtension} />
 
         <div id="layout" className="bounds">
@@ -658,6 +662,30 @@ class VideoRoomComponent extends Component {
             </div>
           )}
         </div>
+        {!isMobile && this.state.chatDisplay === 'none' && !ended && (
+          <IconButton onClick={() => this.toggleChat()} id="navChatButton">
+            {this.state.messageReceived && <div id="point" className="" />}
+            <Tooltip title="Chat">
+              <QuestionAnswer id="icon" />
+            </Tooltip>
+          </IconButton>
+        )}
+        {!ended && (
+          <ToolbarComponent
+            isMobile={isMobile}
+            sessionId={mySessionId}
+            user={localUser}
+            showNotification={this.state.messageReceived}
+            toggleCamera={this.toggleCamera}
+            camStatusChanged={this.camStatusChanged}
+            micStatusChanged={this.micStatusChanged}
+            screenShare={this.screenShare}
+            stopScreenShare={this.stopScreenShare}
+            toggleFullscreen={this.toggleFullscreen}
+            leaveSession={this.leaveSession}
+            toggleChat={this.toggleChat}
+          />
+        )}
       </div>
     );
   }

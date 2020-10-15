@@ -32,20 +32,22 @@ export default class StreamComponent extends Component {
             <div id="statusIcons">
               {!this.props.user.isVideoActive() ? (
                 <div id="camIcon">
-                  <VideocamOff id="statusCam" />
+                  <VideocamOff id="statusCam" style={{ color: '#fa282d' }} />
                 </div>
               ) : null}
 
               {!this.props.user.isAudioActive() ? (
                 <div id="micIcon">
-                  <MicOff id="statusMic" />
+                  <MicOff id="statusMic" style={{ color: '#fa282d' }} />
                 </div>
               ) : null}
             </div>
             <div>
               {!this.props.user.isLocal() && (
                 <IconButton id="volumeButton" onClick={this.toggleSound}>
-                  {this.state.mutedSound ? <VolumeOff color="secondary" /> : <VolumeUp />}
+                  {this.state.mutedSound
+                    ? <VolumeOff style={{ color: '#fa282d' }} />
+                    : <VolumeUp />}
                 </IconButton>
               )}
             </div>

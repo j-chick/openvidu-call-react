@@ -1,9 +1,10 @@
 .nickname {
-    background: rgba(58, 64, 74, 0.651);
+    background: rgba(0, 0, 0, 0.651);
     padding: 5px !important;
     position: absolute;
     z-index: 999;
     color: #ffffff;
+    border-bottom-right-radius: 10px;
 }
 .form-control {
     color: black;
@@ -52,7 +53,6 @@ video {
 
 #statusIcons {
     bottom: 0;
-    background: #c71100;
     width: 40px;
     height: fit-content;
     position: absolute;
@@ -75,8 +75,8 @@ video {
 #volumeButton {
     background-color: #000000c4;
     position: absolute;
-    bottom: 45px;
-    right: 1px;
+    bottom: 25px;
+    right: 15px;
     z-index: 1000;
     color: #ffffff;
 }

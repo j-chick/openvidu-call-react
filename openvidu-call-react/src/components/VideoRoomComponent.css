@@ -1,17 +1,5 @@
-#header {
-  color: #ffffff;
-  background-color: #282c33;
-  padding: 0 14px 0 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 999999;
-  min-width: 300px !important;
-}
-
 .toolbar{
-  min-height: 40px !important;
-
+  min-height: 70px !important;
 }
 
 #titleContent{
@@ -25,24 +13,25 @@
 }
 
 .buttonsContent{
-	height: 40px !important;
+	height: 70px !important;
 	text-align: center;
 	margin: auto;
-    min-width: 300px;
-}
-.navButton{
-	height: 40px !important;
-	width : 40px !important;
+  min-width: 300px;
 }
 
-#navChatButton{
+.navButton {
+	height: 50px !important;
+  width: 50px !important;
+}
+
+#navChatButton {
   position: absolute;
-  right: 0;
-}
-.stream-container {
-    padding: 0;
+  right: 10px;
 }
 
+.stream-container {
+  padding: 0;
+}
 
 .bounds {
   background-color: #36393d;
@@ -50,8 +39,8 @@
   position: absolute;
   left: 0;
   right: 0;
-  top: 40px;
-  bottom: 0;
+  top: 0;
+  bottom: 60px;
   height: inherit;
   min-width: 300px !important;
   width: inherit;

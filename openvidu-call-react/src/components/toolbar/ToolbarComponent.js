@@ -13,8 +13,7 @@ import FullscreenExit from '@material-ui/icons/FullscreenExit';
 import PictureInPicture from '@material-ui/icons/PictureInPicture';
 import ScreenShare from '@material-ui/icons/ScreenShare';
 import StopScreenShare from '@material-ui/icons/StopScreenShare';
-import Tooltip from '@material-ui/core/Tooltip';
-import PowerSettingsNew from '@material-ui/icons/PowerSettingsNew';
+import CallEnd from '@material-ui/icons/CallEnd';
 import QuestionAnswer from '@material-ui/icons/QuestionAnswer';
 import FlipCameraIosIcon from '@material-ui/icons/FlipCameraIos';
 
@@ -67,70 +66,68 @@ export default class ToolbarComponent extends Component {
     this.props.toggleChat();
   }
 
-  getMobile() {
-    const { platform } = window.navigator;
-    const webPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K', 'Win32', 'Win64', 'Windows', 'WinCE'];
-
-    let mobile = true;
-  
-    if (webPlatforms.indexOf(platform) !== -1) {
-      mobile = false;
-    }
-  
-    return mobile;
-  }
-
   render() {
     const localUser = this.props.user;
-
-    const isMobile = this.getMobile();
+    const { isMobile, showNotification } = this.props;
 
     return (
-      <AppBar className="toolbar" id="header">
+      <AppBar
+        className="appbar"
+        position="fixed"
+        style={{
+          top: 'auto',
+          backgroundColor: '#282c33',
+          position: 'fixed',
+          bottom: 0,
+          width: '100%',
+        }}
+      >
         <Toolbar className="toolbar">
           <div className="buttonsContent">
-            {isMobile && (
-              <IconButton color="inherit" className="navButton" id="navFlipButton" onClick={this.toggleCamera}>
-                <FlipCameraIosIcon />
-              </IconButton>
-            )}
-            <IconButton color="inherit" className="navButton" id="navMicButton" onClick={this.micStatusChanged}>
-              {localUser !== undefined && localUser.isAudioActive() ? <Mic /> : <MicOff color="secondary" />}
+            <IconButton color="default" className="navButton" id="navMicButton" onClick={this.micStatusChanged}>
+              {localUser !== undefined && localUser.isAudioActive()
+                ? <Mic id="icon" />
+                : <MicOff id="icon" style={{ color: '#fa282d' }} />}
             </IconButton>
-
-            <IconButton color="inherit" className="navButton" id="navCamButton" onClick={this.camStatusChanged}>
+            <IconButton color="default" className="navButton" id="navCamButton" onClick={this.camStatusChanged}>
               {localUser !== undefined && localUser.isVideoActive() ? (
-                <Videocam />
+                <Videocam id="icon" />
               ) : (
-                  <VideocamOff color="secondary" />
-                )}
+                <VideocamOff id="icon" style={{ color: '#fa282d' }} />
+              )}
             </IconButton>
-
-            {!isMobile && (
-              <IconButton color="inherit" className="navButton" onClick={this.screenShare}>
-                {localUser !== undefined && localUser.isScreenShareActive() ? <PictureInPicture /> : <ScreenShare />}
+            <IconButton color="inherit" className="navButton" onClick={this.leaveSession} id="navLeaveButton">
+              <CallEnd id="icon" style={{ color: 'white' }} />
+            </IconButton>
+            {isMobile ? (
+              <IconButton color="inherit" className="navButton" id="navFlipButton" onClick={this.toggleCamera}>
+                <FlipCameraIosIcon id="icon" />
+              </IconButton>
+            ) : (
+              <IconButton color="default" className="navButton" onClick={this.screenShare} id="navScreenButton">
+                {localUser !== undefined && localUser.isScreenShareActive()
+                  ? <PictureInPicture id="icon" />
+                  : <ScreenShare id="icon" />}
               </IconButton>
             )}
-
             {localUser !== undefined &&
               localUser.isScreenShareActive() && (
                 <IconButton onClick={this.stopScreenShare} id="navScreenButton">
-                  <StopScreenShare color="secondary" />
+                  <StopScreenShare color="secondary" id="icon" />
                 </IconButton>
-              )}
-
-            <IconButton color="inherit" className="navButton" onClick={this.toggleFullscreen}>
-              {localUser !== undefined && this.state.fullscreen ? <FullscreenExit /> : <Fullscreen />}
-            </IconButton>
-            <IconButton color="secondary" className="navButton" onClick={this.leaveSession} id="navLeaveButton">
-              <PowerSettingsNew />
-            </IconButton>
-            <IconButton color="inherit" onClick={this.toggleChat} id="navChatButton">
-              {this.props.showNotification && <div id="point" className="" />}
-              <Tooltip title="Chat">
-                <QuestionAnswer />
-              </Tooltip>
-            </IconButton>
+            )}
+            {isMobile ? (
+              <IconButton color="default" className="navButton" onClick={() => this.toggleChat()}>
+                {showNotification && <div id="point" />}
+                <QuestionAnswer id="icon" />
+              </IconButton>
+            ) : (
+              <IconButton color="default" className="navButton" onClick={this.toggleFullscreen}>
+                {localUser !== undefined && this.state.fullscreen
+                  ? <FullscreenExit id="icon" />
+                  : <Fullscreen id="icon" />}
+              </IconButton>
+            )}
           </div>
         </Toolbar>
       </AppBar>
